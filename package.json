@@ -1,0 +1,18 @@
+{
+  "name": "mercadoandino-app",
+  "version": "1.0.0",
+  "description": "MercadoAndino: aplicacion de prueba para la HT-05 (PIAD-626 Tecnologia Cloud con AWS)",
+  "main": "server.js",
+  "private": true,
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.1164.0",
+    "@aws-sdk/s3-request-presigner": "^3.1164.0",
+    "express": "^4.22.3"
+  }
+}

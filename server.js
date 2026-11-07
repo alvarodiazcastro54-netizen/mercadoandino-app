@@ -15,7 +15,7 @@ const s3 = new S3Client({ region: "us-east-1", requestChecksumCalculation: "WHEN
 // Solo fotos JPG o PNG, como pide el caso.
 const TIPOS_PERMITIDOS = ["image/jpeg", "image/png"];
 
-app.get("/", (req, res) => res.send("MercadoAndino v1 - instancia " + os.hostname()));
+app.get("/", (req, res) => res.send("MercadoAndino v2 - instancia " + os.hostname()));
 
 app.get("/health", (req, res) => res.status(200).send("ok"));
 
@@ -30,7 +30,8 @@ app.get("/api/upload-url", async (req, res) => {
   const key = `uploads/${Date.now()}-${name}`;
   try {
     const cmd = new PutObjectCommand({ Bucket: process.env.BUCKET, Key: key, ContentType: type });
-    const url = await getSignedUrl(s3, cmd, { expiresIn: 300 });
+    // v2: se firma también el Content-Type, así S3 rechaza una subida con otro tipo de archivo.
+    const url = await getSignedUrl(s3, cmd, { expiresIn: 300, signableHeaders: new Set(["content-type"]) });
     res.json({ url, key });
   } catch (err) {
     console.error("Error al generar la URL prefirmada:", err);
